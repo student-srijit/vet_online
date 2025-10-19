@@ -65,21 +65,11 @@ Would you like me to help you locate the nearest emergency veterinary clinic?`
   } catch (error) {
     console.error("Vet chat error:", error)
     
-    // Fallback response for errors
-    const fallbackResponse = `I apologize, but I'm experiencing technical difficulties. However, I'm still here to help!
-
-For immediate assistance:
-- If this is an emergency, please contact your nearest emergency veterinary clinic
-- For non-emergency questions, you can try rephrasing your question
-- You can also use the "Book Appointment" feature to speak with a real veterinarian
-
-Your pet's health is important, and I want to make sure you get the help you need.`
-
     return NextResponse.json({
-      success: true,
-      response: fallbackResponse,
+      success: false,
+      error: error.message || "AI service is currently unavailable. Please try again later or contact your veterinarian directly.",
       isEmergency: false,
       emergencyLevel: 'low'
-    })
+    }, { status: 500 })
   }
 }

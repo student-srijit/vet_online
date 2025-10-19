@@ -52,7 +52,7 @@ export default function PetProfilePage() {
           return
         }
 
-        const response = await fetch("/api/user/profile", {
+        const response = await fetch("/api/pets/list", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -60,11 +60,16 @@ export default function PetProfilePage() {
 
         if (response.ok) {
           const data = await response.json()
-          setUser(data.user)
+          setUser({
+            _id: "user_id",
+            fullName: data.user.fullName,
+            email: data.user.email,
+            pets: data.pets
+          })
           
           // Set pet data from the first pet
-          if (data.user.pets && data.user.pets.length > 0) {
-            const pet = data.user.pets[0]
+          if (data.pets && data.pets.length > 0) {
+            const pet = data.pets[0]
             setPetData({
               name: pet.name || "",
               breed: pet.breed || "",
@@ -115,14 +120,19 @@ export default function PetProfilePage() {
       if (response.ok) {
         setIsEditing(false)
         // Refresh user data
-        const profileResponse = await fetch("/api/user/profile", {
+        const profileResponse = await fetch("/api/pets/list", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
         if (profileResponse.ok) {
           const data = await profileResponse.json()
-          setUser(data.user)
+          setUser({
+            _id: "user_id",
+            fullName: data.user.fullName,
+            email: data.user.email,
+            pets: data.pets
+          })
         }
       } else {
         const errorData = await response.json()

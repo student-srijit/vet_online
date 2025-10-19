@@ -218,17 +218,32 @@ export function AIVideoCall({ onClose }: AIVideoCallProps) {
     setPetSymptoms(prev => [...prev, ...symptoms])
 
     // Generate AI response
-    const aiResponse = await generateAIResponse(message, symptoms)
-    
-    // Add AI response to conversation
-    setConversationHistory(prev => [...prev, {
-      type: 'ai',
-      message: aiResponse,
-      timestamp: new Date()
-    }])
+    try {
+      const aiResponse = await generateAIResponse(message, symptoms)
+      
+      // Add AI response to conversation
+      setConversationHistory(prev => [...prev, {
+        type: 'ai',
+        message: aiResponse,
+        timestamp: new Date()
+      }])
 
-    // Speak AI response
-    speakAI(aiResponse)
+      // Speak AI response
+      speakAI(aiResponse)
+    } catch (error) {
+      console.error("Error generating AI response:", error)
+      
+      // Add error message to conversation
+      const errorMessage = `I apologize, but I'm experiencing technical difficulties. ${error.message} Please try again or contact your veterinarian directly.`
+      
+      setConversationHistory(prev => [...prev, {
+        type: 'ai',
+        message: errorMessage,
+        timestamp: new Date()
+      }])
+
+      speakAI(errorMessage)
+    }
 
     // Generate suggestions
     const suggestions = generateSuggestions(symptoms, message)
@@ -289,37 +304,18 @@ export function AIVideoCall({ onClose }: AIVideoCallProps) {
 
       if (response.ok) {
         const data = await response.json()
-        return data.response || "I'm here to help with your pet's health concerns. Could you please provide more details?"
+        if (data.success) {
+          return data.response || "I'm here to help with your pet's health concerns. Could you please provide more details?"
+        } else {
+          throw new Error(data.error || "AI service unavailable")
+        }
       } else {
-        throw new Error("API call failed")
+        const errorData = await response.json()
+        throw new Error(errorData.error || "API call failed")
       }
     } catch (error) {
       console.error("Error calling vet chat API:", error)
-      
-      // Fallback to dynamic response based on symptoms and pet data
-      let response = ""
-
-      if (symptoms.length > 0) {
-        response = `I understand you're concerned about ${symptoms.join(', ')}. `
-        
-        if (symptoms.includes('vomiting') || symptoms.includes('diarrhea')) {
-          response += "These symptoms could indicate several conditions. I recommend monitoring your pet's hydration and contacting your vet if symptoms persist for more than 24 hours. "
-        }
-        
-        if (symptoms.includes('lethargy') || symptoms.includes('loss of appetite')) {
-          response += "Lethargy and loss of appetite are concerning symptoms that require prompt veterinary attention. "
-        }
-        
-        if (symptoms.includes('breathing problems')) {
-          response += "Breathing difficulties are serious and require immediate veterinary care. "
-        }
-      } else {
-        response = "Thank you for sharing that information. "
-      }
-
-      response += `Based on what you've told me about ${currentPet?.name || 'your pet'}, I have some recommendations. Would you like me to provide specific care instructions or would you prefer to schedule an emergency consultation?`
-
-      return response
+      throw new Error(`AI service unavailable: ${error.message}`)
     }
   }
 

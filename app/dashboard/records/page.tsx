@@ -439,82 +439,82 @@ export default function RecordsPage() {
 
   return (
     <DashboardLayout>
-          {/* Header */}
-          <div className="gradient-pink-teal rounded-2xl p-8 text-white mb-8">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-3xl font-bold">Health Records</h2>
-                <p className="text-white/90">Track your pet's health journey with AI insights</p>
-                <p className="text-white/80 text-sm mt-2">
-                  💡 For the most accurate AI health analysis, please provide detailed health records including vaccinations, 
-                  weight checks, dental cleanings, and vet visits. Our AI works best with comprehensive data to give you 
-                  the perfect health insights for your beloved pet.
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <Button
-                  onClick={handleAdvancedAnalysis}
-                  disabled={analyzing || records.length === 0}
-                  className="bg-white/20 hover:bg-white/30 text-white border-white/30"
-                  title={records.length === 0 ? "Add health records first for AI analysis" : "Run comprehensive AI analysis"}
-                >
-                  {analyzing ? (
-                    <>
-                      <Brain className="animate-spin mr-2" size={20} />
-                      Analyzing...
-                    </>
-                  ) : (
-                    <>
-                      <Zap className="mr-2" size={20} />
-                      AI Analysis
-                    </>
-                  )}
-                </Button>
-                <Button
-                  onClick={handleHealthPrediction}
-                  disabled={predicting || records.length === 0}
-                  className="bg-white/20 hover:bg-white/30 text-white border-white/30"
-                  title={records.length === 0 ? "Add health records first for predictions" : "Predict future health trends"}
-                >
-                  {predicting ? (
-                    <>
-                      <Sparkles className="animate-pulse mr-2" size={20} />
-                      Predicting...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="mr-2" size={20} />
-                      Predict Health
-                    </>
-                  )}
-                </Button>
-                <Button
-                  onClick={handleCompetitorAnalysis}
-                  disabled={analyzingCompetitors}
-                  className="bg-white/20 hover:bg-white/30 text-white border-white/30"
-                >
-                  {analyzingCompetitors ? (
-                    <>
-                      <Trophy className="animate-bounce mr-2" size={20} />
-                      Analyzing...
-                    </>
-                  ) : (
-                    <>
-                      <Trophy className="mr-2" size={20} />
-                      Why We Win
-                    </>
-                  )}
-                </Button>
-                <Button
-                  onClick={() => window.location.href = '/dashboard/health-insights'}
-                  className="bg-white/20 hover:bg-white/30 text-white border-white/30"
-                >
-                  <BarChart3 className="mr-2" size={20} />
-                  Deep Insights
-                </Button>
-              </div>
-            </div>
+      {/* Header */}
+      <div className="gradient-pink-teal rounded-2xl p-8 text-white mb-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-3xl font-bold">Health Records</h2>
+            <p className="text-white/90">Track your pet's health journey with AI insights</p>
+            <p className="text-white/80 text-sm mt-2">
+              💡 For the most accurate AI health analysis, please provide detailed health records including vaccinations, 
+              weight checks, dental cleanings, and vet visits. Our AI works best with comprehensive data to give you 
+              the perfect health insights for your beloved pet.
+            </p>
           </div>
+          <div className="flex gap-3">
+            <Button
+              onClick={handleAdvancedAnalysis}
+              disabled={analyzing || records.length === 0}
+              className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+              title={records.length === 0 ? "Add health records first for AI analysis" : "Run comprehensive AI analysis"}
+            >
+              {analyzing ? (
+                <>
+                  <Brain className="animate-spin mr-2" size={20} />
+                  Analyzing...
+                </>
+              ) : (
+                <>
+                  <Zap className="mr-2" size={20} />
+                  AI Analysis
+                </>
+              )}
+            </Button>
+            <Button
+              onClick={handleHealthPrediction}
+              disabled={predicting || records.length === 0}
+              className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+              title={records.length === 0 ? "Add health records first for predictions" : "Predict future health trends"}
+            >
+              {predicting ? (
+                <>
+                  <Sparkles className="animate-pulse mr-2" size={20} />
+                  Predicting...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2" size={20} />
+                  Predict Health
+                </>
+              )}
+            </Button>
+            <Button
+              onClick={handleCompetitorAnalysis}
+              disabled={analyzingCompetitors}
+              className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+            >
+              {analyzingCompetitors ? (
+                <>
+                  <Trophy className="animate-bounce mr-2" size={20} />
+                  Analyzing...
+                </>
+              ) : (
+                <>
+                  <Trophy className="mr-2" size={20} />
+                  Why We Win
+                </>
+              )}
+            </Button>
+            <Button
+              onClick={() => window.location.href = '/dashboard/health-insights'}
+              className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+            >
+              <BarChart3 className="mr-2" size={20} />
+              Deep Insights
+            </Button>
+          </div>
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Records List */}
